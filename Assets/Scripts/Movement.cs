@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    // Basic structure 
+    // PARAMETERS - tuning in editor
+    // CACHE - e.g. references
+    // STATE - private instance variables
+
     [SerializeField] Rigidbody rb;
     [SerializeField] float trottleSpeed = 1000;
     [SerializeField] float rotateSpeed = 100;

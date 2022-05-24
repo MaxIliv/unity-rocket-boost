@@ -3,23 +3,44 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float levelLoadDelay = 1f;
+
+    bool isTransitioning = false;
+
     void OnCollisionEnter(Collision other)
     {
+        if (isTransitioning) return;
+        
         switch (other.gameObject.tag)
         {
-            case "Fuel":
-                AddFuel();
-                break;
             case "Friendly":
-                Debug.Log("this is friendly");
                 break;
             case "Finish":
-                LoadNextLevel();
+                StartSuccessSequence();
                 break;
             default:
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
+    }
+
+    void StartCrashSequence()
+    {
+        // add SFX
+        // add particles
+        
+        Debug.Log("Crash");
+        isTransitioning = true;
+        GetComponent<Movement>().enabled = false;
+        Invoke("ReloadLevel", levelLoadDelay);
+    }
+
+    void StartSuccessSequence()
+    {
+        Debug.Log("Success");
+        isTransitioning = true;
+        GetComponent<Movement>().enabled = false;   
+        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
     void LoadNextLevel()
@@ -33,11 +54,6 @@ public class CollisionHandler : MonoBehaviour
         }
         
         SceneManager.LoadScene(nextSceneIndex);
-    }
-
-    void AddFuel()
-    {
-        Debug.Log("Fuel +10");
     }
 
     void ReloadLevel()
