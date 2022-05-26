@@ -35,12 +35,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up * trottleSpeed * Time.deltaTime);
-
-            if (!mainEngineParticles.isPlaying)
-            {
-                mainEngineParticles.Play();
-            }
+            StartThrust();
         }
         else
         {
@@ -53,33 +48,58 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(rotateSpeed);
-
-            if (!rightEngineParticles.isPlaying)
-            {
-                rightEngineParticles.Play();
-            }
+            RotateLeft();
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            ApplyRotation(-rotateSpeed);
-
-            if (!leftEngineParticles.isPlaying)
-            {
-                leftEngineParticles.Play();
-            }
+            RotateRight();
         }
         else
         {
-            if (rightEngineParticles.isPlaying)
-            {
-                rightEngineParticles.Stop();
-            }
+            StopRotating();
+        }
+    }
 
-            if (leftEngineParticles.isPlaying)
-            {
-                leftEngineParticles.Stop();
-            }
+    void StartThrust()
+    {
+        rb.AddRelativeForce(Vector3.up * trottleSpeed * Time.deltaTime);
+
+        if (!mainEngineParticles.isPlaying)
+        {
+            mainEngineParticles.Play();
+        }
+    }
+
+    void RotateLeft()
+    {
+        ApplyRotation(rotateSpeed);
+
+        if (!rightEngineParticles.isPlaying)
+        {
+            rightEngineParticles.Play();
+        }
+    }
+
+    void RotateRight()
+    {
+        ApplyRotation(-rotateSpeed);
+
+        if (!leftEngineParticles.isPlaying)
+        {
+            leftEngineParticles.Play();
+        }
+    }
+
+    void StopRotating()
+    {
+        if (rightEngineParticles.isPlaying)
+        {
+            rightEngineParticles.Stop();
+        }
+
+        if (leftEngineParticles.isPlaying)
+        {
+            leftEngineParticles.Stop();
         }
     }
 
