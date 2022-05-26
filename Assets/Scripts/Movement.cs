@@ -13,6 +13,10 @@ public class Movement : MonoBehaviour
     [SerializeField] float trottleSpeed = 1000;
     [SerializeField] float rotateSpeed = 100;
 
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem leftEngineParticles;
+    [SerializeField] ParticleSystem rightEngineParticles;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +36,15 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rb.AddRelativeForce(Vector3.up * trottleSpeed * Time.deltaTime);
+
+            if (!mainEngineParticles.isPlaying)
+            {
+                mainEngineParticles.Play();
+            }
+        }
+        else
+        {
+            mainEngineParticles.Stop();
         }
     }
 
@@ -41,10 +54,32 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             ApplyRotation(rotateSpeed);
+
+            if (!rightEngineParticles.isPlaying)
+            {
+                rightEngineParticles.Play();
+            }
         }
         else if (Input.GetKey(KeyCode.D))
         {
             ApplyRotation(-rotateSpeed);
+
+            if (!leftEngineParticles.isPlaying)
+            {
+                leftEngineParticles.Play();
+            }
+        }
+        else
+        {
+            if (rightEngineParticles.isPlaying)
+            {
+                rightEngineParticles.Stop();
+            }
+
+            if (leftEngineParticles.isPlaying)
+            {
+                leftEngineParticles.Stop();
+            }
         }
     }
 

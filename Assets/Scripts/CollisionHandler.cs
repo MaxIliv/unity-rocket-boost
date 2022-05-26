@@ -7,7 +7,7 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] float levelLoadDelay = 1f;
     [SerializeField] ParticleSystem crashParticles;
     [SerializeField] ParticleSystem successParticles;
-
+ 
     // CACHE - e.g. references
 
     // STATE - private instance variables
