@@ -3,14 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    // PARAMETERS - tuning in editor
     [SerializeField] float levelLoadDelay = 1f;
+    [SerializeField] ParticleSystem crashParticles;
+    [SerializeField] ParticleSystem successParticles;
 
+    // CACHE - e.g. references
+
+    // STATE - private instance variables
     bool isTransitioning = false;
 
     void OnCollisionEnter(Collision other)
     {
         if (isTransitioning) return;
-        
+
         switch (other.gameObject.tag)
         {
             case "Friendly":
@@ -32,6 +38,7 @@ public class CollisionHandler : MonoBehaviour
         Debug.Log("Crash");
         isTransitioning = true;
         GetComponent<Movement>().enabled = false;
+        crashParticles.Play();
         Invoke("ReloadLevel", levelLoadDelay);
     }
 
@@ -39,7 +46,8 @@ public class CollisionHandler : MonoBehaviour
     {
         Debug.Log("Success");
         isTransitioning = true;
-        GetComponent<Movement>().enabled = false;   
+        GetComponent<Movement>().enabled = false;
+        successParticles.Play();
         Invoke("LoadNextLevel", levelLoadDelay);
     }
 
